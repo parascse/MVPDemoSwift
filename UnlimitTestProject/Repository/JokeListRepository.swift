@@ -24,17 +24,17 @@ final class JokeListRepository {
     func getJokes(completion: @escaping ([Joke]) -> (Void)) {
         let localData = self.localRepository.getJokes()
         if !localData.isEmpty {
-            remoteRepository.getJokes { [weak self] joke in
-                guard let self = self else { return }
-                if self.isSaveJokeLimitOver {
-                    self.localRepository.removeFirst()
-                }
-                self.localRepository.saveJoke(joke)
-                let allJokes = self.localRepository.getJokes()
-                completion(allJokes)
-            }
-        } else {
             completion(localData)
+        }
+        
+        remoteRepository.getJokes { [weak self] joke in
+            guard let self = self else { return }
+            if self.isSaveJokeLimitOver {
+                self.localRepository.removeFirst()
+            }
+            self.localRepository.saveJoke(joke)
+            let allJokes = self.localRepository.getJokes()
+            completion(allJokes)
         }
     }
     

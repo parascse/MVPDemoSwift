@@ -20,7 +20,6 @@ final class JokesListPresenter {
     
     init(_ jokeListRepository: JokeListRepository = JokeListRepository()){
         self.jokeListRepository = jokeListRepository
-//        getJokesList()
         timerToFetchNewJokes()
     }
     
@@ -42,7 +41,7 @@ final class JokesListPresenter {
         return self.jokes[indexPath.row]
     }
     func timerToFetchNewJokes(){
-        let timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(getJokesList), userInfo: nil, repeats: true)
+        let timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(getJokesList), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: .common)
     }
 }
